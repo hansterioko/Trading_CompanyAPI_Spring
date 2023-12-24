@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -28,11 +29,15 @@ public class PurchaseController {
     @PostMapping("/create")
     public ResponseEntity create(@RequestBody @Valid Purchase purchase, BindingResult bindingResult){
         try{
-
             if(bindingResult.hasErrors()){
                 return ResponseEntity.badRequest().body(getValidErrors.getErrors(bindingResult));
             }
-
+            if (purchase.getPurchase_list() == null){
+                System.out.println("FICK");
+            }
+            else{
+                System.out.println("YEEEEP");
+            }
             purchaseService.createPurchase(purchase);
             return ResponseEntity.ok("Закупка создана");
         }

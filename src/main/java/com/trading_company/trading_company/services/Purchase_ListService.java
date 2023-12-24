@@ -72,7 +72,7 @@ public class Purchase_ListService {
 
             for(Purchase_List item: purchase_lists){
                 byte[] photo = (filesService.getFile(item.getProduct().getPhoto()));
-                ProductDTO newProduct = new ProductDTO(item.getId(), item.getProduct().getName(),
+                ProductDTO newProduct = new ProductDTO(item.getProduct().getId(), item.getProduct().getName(),
                         item.getProduct().getVat(), item.getProduct().getCategory(),
                         item.getProduct().getCharacteristic(), item.getProduct().getUnit(),
                         item.getProduct().getPrice(), item.getProduct().getCountOnWarehouse(), photo,

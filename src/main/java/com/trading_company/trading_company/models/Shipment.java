@@ -1,5 +1,6 @@
 package com.trading_company.trading_company.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -30,7 +31,8 @@ public class Shipment {
     private Shop shop;
 
     @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL)
-    private List<Shipment_List> shipmentList;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Shipment_List> shipment_list;
 
     @Column(nullable = false)
     private LocalDate date;

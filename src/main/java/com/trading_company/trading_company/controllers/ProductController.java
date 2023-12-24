@@ -1,5 +1,6 @@
 package com.trading_company.trading_company.controllers;
 
+import com.trading_company.trading_company.dtos.ProductDTO;
 import com.trading_company.trading_company.exeption.CompanyNotFoundExeption;
 import com.trading_company.trading_company.exeption.ProductNotFoundExeption;
 import com.trading_company.trading_company.models.Company;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,18 +27,15 @@ public class ProductController {
     @Autowired
     GetValidErrors getValidErrors;
 
-    @PostMapping
-    public ResponseEntity create(@RequestBody @Valid Product product, @RequestParam Integer id, BindingResult bindingResult){
+    @PostMapping("/create")
+    public ResponseEntity create(@RequestPart @Valid Product product, @RequestPart(required = false) MultipartFile photo, BindingResult bindingResult){
         try{
             if(bindingResult.hasErrors()){
                 return ResponseEntity.badRequest().body(getValidErrors.getErrors(bindingResult));
             }
 
-            productService.createProduct(product, id);
+            productService.createProduct(product, photo);
             return ResponseEntity.ok("Товар добавлен");
-        }
-        catch (CompanyNotFoundExeption e){
-            return ResponseEntity.badRequest().body(e.getMessage());
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Произошла ошибка");
@@ -79,7 +78,7 @@ public class ProductController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable("id") Integer id){
         try {
-            Optional<Product> product = productService.getOneProduct(id);
+            Optional<ProductDTO> product = productService.getOneProduct(id);
 
             if (product.isEmpty()){
                 return ResponseEntity.internalServerError().body("Произошла ошибка");
@@ -97,7 +96,7 @@ public class ProductController {
     @PutMapping("/update")
     public ResponseEntity update(@RequestBody @Valid Product newproduct){
         try {
-            Optional<Product> product = productService.getOneProduct(newproduct.getId());
+            Optional<ProductDTO> product = productService.getOneProduct(newproduct.getId());
 
             if (product.isEmpty()){
                 return ResponseEntity.internalServerError().body("Произошла ошибка");

@@ -14,7 +14,7 @@ public class Shipment_List {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Min(value = 1, message = "Цена постаавки не подсчитана")
+    @Min(value = 1, message = "Цена поставки не подсчитана")
     private Integer price;
 
     @Min(value = 1, message = "Кол-во товара в поставке не может быть меньше 1")

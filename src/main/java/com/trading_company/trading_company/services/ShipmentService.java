@@ -1,7 +1,11 @@
 package com.trading_company.trading_company.services;
 
+import com.trading_company.trading_company.exeption.CountProductNegativeExeption;
+import com.trading_company.trading_company.exeption.ProductNotFoundExeption;
 import com.trading_company.trading_company.models.Purchase;
+import com.trading_company.trading_company.models.Purchase_List;
 import com.trading_company.trading_company.models.Shipment;
+import com.trading_company.trading_company.models.Shipment_List;
 import com.trading_company.trading_company.repositories.PurchaseRepository;
 import com.trading_company.trading_company.repositories.ShipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +18,16 @@ import java.util.Optional;
 public class ShipmentService {
     @Autowired
     private ShipmentRepository shipmentRepository;
+    @Autowired
+    private ProductService productService;
 
-    public Shipment createShipment(Shipment shipment) {
+    public Shipment createShipment(Shipment shipment) throws CountProductNegativeExeption, ProductNotFoundExeption {
+        System.out.println(shipment.getShipment_list());
+        for (Shipment_List item:
+                shipment.getShipment_list()) {
+            item.setShipment(shipment);
+            productService.addCountProduct(item.getProduct().getId(), -item.getCount());
+        }
 
         return shipmentRepository.save(shipment);
     }

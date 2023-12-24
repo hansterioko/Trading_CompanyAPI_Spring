@@ -1,6 +1,7 @@
 package com.trading_company.trading_company.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
@@ -26,7 +27,8 @@ public class Purchase {
     private Integer price;
 
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL)
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Purchase_List> purchase_list;
 
     @ManyToOne

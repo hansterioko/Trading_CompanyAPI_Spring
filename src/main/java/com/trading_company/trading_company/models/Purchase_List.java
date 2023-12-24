@@ -21,7 +21,7 @@ public class Purchase_List {
 
     @Positive
     @Min(value = 1, message = "Минимальное кол-во товаров для закупки - 1")
-    @Max(value = 100000, message = "Максимальное кол-во товаров для закупки - 100000")
+//    @Max(value = 100000, message = "Максимальное кол-во товаров для закупки - 100000")
     private Integer count;
 
     @ManyToOne
